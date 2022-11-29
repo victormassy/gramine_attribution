@@ -46,6 +46,7 @@ void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]
 
 int main(void) {
 	//Add timer !!
+    printf("Welcome to main");
     FILE *fptr;
     if (!(fptr = fopen("input.txt","r"))){
               printf("Error! opening file");

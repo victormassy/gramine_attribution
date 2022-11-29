@@ -9,16 +9,16 @@ CFLAGS += -O3
 endif
 
 .PHONY: all
-all: helloworld helloworld.manifest
+all: main main.manifest
 ifeq ($(SGX),1)
-all: helloworld.manifest.sgx helloworld.sig helloworld.token
+all: main.manifest.sgx main.sig main.token
 endif
 
-helloworld: helloworld.o
+main: main.o mergesort.c printfunctions.c
 
-helloworld.o: helloworld.c
+main.o: main.c
 
-helloworld.manifest: helloworld.manifest.template
+main.manifest: main.manifest.template
 	gramine-manifest \
 		-Dlog_level=$(GRAMINE_LOG_LEVEL) \
 		$< $@
@@ -29,8 +29,7 @@ helloworld.manifest: helloworld.manifest.template
 #
 # Simply using a normal rule with "two targets" is equivalent to creating separate rules
 # for each of the targets, and when using `make -j`, this might cause two instances
-# of gramine-sgx-sign to get launched simultaneously, potentially breaking the build.
-#
+# of gramine-sgx-sign to get launched simultaneously, potentially breaking the build.#
 # As a workaround, we use a dummy intermediate target, and mark both files as depending on it, to
 # get the dependency graph we want. We mark this dummy target as .INTERMEDIATE, which means
 # that make will consider the source tree up-to-date even if the sgx_sign file doesn't exist,
@@ -63,7 +62,7 @@ check: all
 
 .PHONY: clean
 clean:
-	$(RM) *.token *.sig *.manifest.sgx *.manifest helloworld.o helloworld OUTPUT
+	$(RM) *.token *.sig *.manifest.sgx *.manifest main.o main OUTPUT
 
 .PHONY: distclean
 distclean: clean
