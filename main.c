@@ -58,6 +58,7 @@ int main(void) {
     int nb_columns = 4; 
     int nb_campaigns = 4;
     long int data[nb_rows][nb_columns];
+    int output[nb_campaigns];
 
     for(int i = 0; i < nb_rows; i++){
 	    for(int j = 0; j < nb_columns; j++){
@@ -68,11 +69,10 @@ int main(void) {
 
     fclose(fptr);
     print_reports(nb_rows, nb_columns, data);    	
-    mergeSort(nb_columns, data, 0, nb_rows-1);   
+    //mergeSort(nb_columns, data, 0, nb_rows-1);   
+    quicksort(nb_rows, nb_columns, data, 0, nb_rows-1);
     print_reports(nb_rows, nb_columns, data); 
 	
-    //int *  output = calloc(nb_campaigns, sizeof(int));
-    int output[nb_campaigns];
     attribution(nb_rows, nb_columns, data, nb_campaigns, output);
 
     print_output(nb_campaigns, output);

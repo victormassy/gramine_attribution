@@ -14,7 +14,7 @@ ifeq ($(SGX),1)
 all: main.manifest.sgx main.sig main.token
 endif
 
-main: main.o mergesort.c printfunctions.c
+main: main.o quicksort.c mergesort.c printfunctions.c
 
 main.o: main.c
 
@@ -35,16 +35,16 @@ main.manifest: main.manifest.template
 # that make will consider the source tree up-to-date even if the sgx_sign file doesn't exist,
 # as long as the other dependencies check out. This is in contrast to .PHONY, which would
 # be rebuilt on every invocation of make.
-helloworld.sig helloworld.manifest.sgx: sgx_sign
+main.sig main.manifest.sgx: sgx_sign
 	@:
 
 .INTERMEDIATE: sgx_sign
-sgx_sign: helloworld.manifest helloworld
+sgx_sign: main.manifest main
 	gramine-sgx-sign \
 		--manifest $< \
 		--output $<.sgx
 
-helloworld.token: helloworld.sig
+main.token: main.sig
 	gramine-sgx-get-token \
 		--output $@ --sig $<
 
