@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix_columns.h"
+#include "mergesort.h"
 
 void copy_line(int src_idx, int dest_idx, int nb_columns, long int source[][nb_columns], long int dest[][nb_columns]){
 	//printf("Copy line %d %d\n",src_idx, dest_idx);

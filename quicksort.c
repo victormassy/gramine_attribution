@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix_columns.h"
+#include "quicksort.h"
 
 
 void switch_lines(int x, int y, long int nb_lines, int nb_columns, long int data[nb_lines][nb_columns]){
