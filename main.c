@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "matrix_columns.h"
 #include "mergesort.h"
 #include "quicksort.h"
 #include "printfunctions.h"
-
 
 void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns], int nb_campaigns, int output[nb_campaigns]){
 	//Naive implementation 
@@ -45,7 +45,7 @@ void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]
 
 
 int main(void) {
-	//Add timer !!
+    clock_t start = clock();
     printf("Welcome to main");
     FILE *fptr;
     if (!(fptr = fopen("input.txt","r"))){
@@ -77,6 +77,11 @@ int main(void) {
 
     print_output(nb_campaigns, output);
     
+    clock_t stop = clock();
+    
+    clock_t difference = stop - start;
+    int msec = difference * 1000 / CLOCKS_PER_SEC;
+    printf("Time taken %d seconds %d milliseconds \n", msec/1000, msec%1000);
     return 0;
 }
 
