@@ -17,8 +17,10 @@ sgx.nonpie_binary = true
 sgx.trusted_files = [
   "file:{{ gramine.libos }}",
   "file:main",
-  "file:{{ gramine.runtimedir() }}/",  
+  "file:{{ gramine.runtimedir() }}/", 
+  "file:input.txt", 
 ]
 
-sgx.allowed_files = [
-  "file:input.txt",
+#sgx.allowed_files = [
+#  "file:input.txt",
+#  ]

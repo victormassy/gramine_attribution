@@ -5,6 +5,7 @@
 #include "mergesort.h"
 #include "quicksort.h"
 #include "printfunctions.h"
+#include "insertionsort.h"
 
 void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns], int nb_campaigns, int output[nb_campaigns]){
 	//Naive implementation 
@@ -70,9 +71,10 @@ int main(void) {
     fclose(fptr);
     print_reports(nb_rows, nb_columns, data);    	
     //mergeSort(nb_columns, data, 0, nb_rows-1);   
-    quicksort(nb_rows, nb_columns, data, 0, nb_rows-1);
+    //quicksort(nb_rows, nb_columns, data, 0, nb_rows-1);
+    insertion_sort(nb_rows, nb_columns, data);
     print_reports(nb_rows, nb_columns, data); 
-	
+		
     attribution(nb_rows, nb_columns, data, nb_campaigns, output);
 
     print_output(nb_campaigns, output);
