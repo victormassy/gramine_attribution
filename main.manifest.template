@@ -5,8 +5,8 @@ libos.entrypoint = "/main"
 loader.log_level = "{{ log_level }}"
 
 loader.env.LD_LIBRARY_PATH = "/lib"
-#sgx.enclave_size = "4G"
-sys.stack.size = "10M"
+sgx.enclave_size = "2G"
+sys.stack.size = "1G"
 
 
 fs.mounts = [
