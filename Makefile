@@ -14,7 +14,7 @@ ifeq ($(SGX),1)
 all: main.manifest.sgx main.sig main.token
 endif
 
-main: main.o quicksort.c mergesort.c printfunctions.c insertionsort.c
+main: main.o grouping.c quicksort.c mergesort.c printfunctions.c insertionsort.c
 
 main.o: main.c
 

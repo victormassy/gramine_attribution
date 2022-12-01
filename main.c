@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include "matrix_columns.h"
-//#include "mergesort.h"
-//#include "quicksort.h"
-//#include "printfunctions.h"
-//#include "insertionsort.h"
+#include "mergesort.h"
+#include "quicksort.h"
+#include "printfunctions.h"
+#include "insertionsort.h"
 #include "grouping.h"
 
 void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns], int nb_campaigns, int output[nb_campaigns]){
@@ -56,7 +56,7 @@ int main(void) {
         }
   
     long int nb_rows;
-    fscanf(fptr, "%ld", &nb_rows);
+    if(!fscanf(fptr, "%ld", &nb_rows)) exit(2);
     int nb_columns = 4; 
     int nb_campaigns = 4;
     long int data[nb_rows][nb_columns];
@@ -64,7 +64,7 @@ int main(void) {
 
     for(int i = 0; i < nb_rows; i++){
 	    for(int j = 0; j < nb_columns; j++){
-	    	fscanf(fptr, "%ld", &data[i][j]);
+	    	if(!fscanf(fptr, "%ld", &data[i][j])) exit(3);
 	   	//printf("%ld\n", data[i][j]);
 	    }
         }
