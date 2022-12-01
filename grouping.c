@@ -54,7 +54,6 @@ void free_tree(struct tree * tree){
         }
 }
 void print_tree(struct tree * to_print){
-	printf("Print tree\n");
 	struct element * curr; 
 	while(to_print != NULL){
 		printf("key: %ld nb elements: %d contains trigger: %d-> elements: ", to_print->key, to_print->nb_elements, to_print->contains_trigger);
@@ -67,6 +66,10 @@ void print_tree(struct tree * to_print){
 		to_print = to_print->next;
 
 	}
+}
+
+void print_element(struct element * elem){
+		printf("elem : key %ld, is trigger: %d, value %ld", elem->row[0], elem->row[1], elem->row[2]);
 }
 
 struct tree * init_tree(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]){
@@ -82,40 +85,43 @@ struct tree * init_tree(int nb_rows, int nb_columns, long int data[nb_rows][nb_c
 	return tree; 
 }
 
-int * grouped_attribution(struct tree * tree, int nb_campaigns){
-	enum matrix_column is_trigger = is_trigger; 
-	enum matrix_column match_key = match_key;
-	enum matrix_column value = value; 
-	enum matrix_column breakdown_key = breakdown_key;
-	struct tree * next_node;
-    struct element * curr;
-    struct element * linked_source;
-	int * output = calloc(nb_campaigns, sizeof(int));
+void grouped_attribution(long int * output, struct tree * tree, int nb_campaigns){
+	
+	enum matrix_column trigger = is_trigger; 
+	enum matrix_column key = match_key;
+	enum matrix_column val = value; 
+	enum matrix_column breakdown = breakdown_key;
+    	struct element * curr;
+    	struct element * linked_source;
 	//Check all the different match keys
-    while(tree->next != NULL){
+	while(tree != NULL){		
+		printf("new key\n");
 		//If a key contains at least one trigger, check all the elements
 		if(tree->contains_trigger && tree->nb_elements>1){
 			curr = tree->element;
 			while(curr != NULL){
 				//we want to find the matching source
-				if(curr->row[is_trigger]){
+				printf("%d\n", curr->row[1]);
+				if(curr->row[trigger]){
+					printf("found trigger\n");
 					linked_source = curr ->next_element;
 					//go through all previous elem and find the closer source event 
 					while(linked_source != NULL){
-						if(!linked_source->row[is_trigger]){
-							output[linked_source->row[breakdown_key]] += linked_source->row[value]; 
+						if(!linked_source->row[trigger]){
+							printf("found source\n");
+							output[linked_source->row[breakdown]] += curr->row[2]; 
+							print_element(linked_source);
 							break; 
 						}
 						linked_source = linked_source -> next_element; 
 					}
 				}
-            	curr = curr ->next_element;
-        }
+            			curr = curr ->next_element;
+        		}
 		}
-        tree = next_node;
-		}
-
-	return output;
+        	tree = tree -> next;
+	}
+	
 }
 
 
@@ -127,7 +133,7 @@ void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaigns, long int 
 	bool added;
 	struct tree ** found_key = &known_keys;	
 	struct element * new_element; 
-    enum matrix_column is_trigger = is_trigger; 
+        enum matrix_column is_trigger = is_trigger; 
 	enum matrix_column match_key = match_key;	
 	for(i=1;i<nb_rows;i++)
 	{	
@@ -142,11 +148,20 @@ void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaigns, long int 
 	}
 	print_tree(known_keys);
 
-	int * output = grouped_attribution(known_keys, nb_campaigns); 
+	long int output[nb_campaigns]; 
+	
+	for(int i = 0; i<nb_campaigns; i++){
+	              output[i] = 0; 
+	}
+
+	grouped_attribution(output, known_keys, nb_campaigns); 
+ 		
 	for(int i = 0; i<nb_campaigns; i++){
 		printf("%d ", output[i]);
 	}
-	printf("\n");
+	
+//	free(output);
+	printf("\n");	
 	free_tree(known_keys);
 	
 
