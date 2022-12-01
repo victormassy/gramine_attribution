@@ -1,14 +1,17 @@
 # Hello World manifest file example
 
 loader.entrypoint = "file:{{ gramine.libos }}"
-libos.entrypoint = "/helloworld"
+libos.entrypoint = "/main"
 loader.log_level = "{{ log_level }}"
 
 loader.env.LD_LIBRARY_PATH = "/lib"
+#sgx.enclave_size = "4G"
+sys.stack.size = "10M"
+
 
 fs.mounts = [
   { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
-  { path = "/helloworld", uri = "file:helloworld" },
+  { path = "/main", uri = "file:main" },
 ]
 
 sgx.debug = true
@@ -16,9 +19,11 @@ sgx.nonpie_binary = true
 
 sgx.trusted_files = [
   "file:{{ gramine.libos }}",
-  "file:helloworld",
-  "file:{{ gramine.runtimedir() }}/",  
+  "file:main",
+  "file:{{ gramine.runtimedir() }}/", 
+  "file:input.txt", 
 ]
 
-sgx.allowed_files = [
-  "file:input.txt",
+#sgx.allowed_files = [
+#  "file:input.txt",
+#  ]
