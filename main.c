@@ -48,7 +48,6 @@ void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]
 
 int main(void) {
     clock_t start = clock();
-    printf("Welcome to main");
     FILE *fptr;
     if (!(fptr = fopen("input.txt","r"))){
               printf("Error! opening file");
@@ -58,7 +57,7 @@ int main(void) {
     long int nb_rows;
     if(!fscanf(fptr, "%ld", &nb_rows)) exit(2);
     int nb_columns = 4; 
-    int nb_campaigns = 4;
+    int nb_campaigns = 100;
     long int data[nb_rows][nb_columns];
     int output[nb_campaigns];
 
@@ -71,16 +70,29 @@ int main(void) {
 
     fclose(fptr);
     print_reports(nb_rows, nb_columns, data);    	
-    //mergeSort(nb_columns, data, 0, nb_rows-1);   
-    //quicksort(nb_rows, nb_columns, data, 0, nb_rows-1);
-    //insertion_sort(nb_rows, nb_columns, data);
-	group_rows_by_keys(nb_rows, nb_columns, nb_campaigns, data);
     
-	//print_reports(nb_rows, nb_columns, data); 
-		
-    //attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+    /*
+     * First solution: merge sort 
+     */
 
-    //print_output(nb_campaigns, output);
+//    mergeSort(nb_columns, data, 0, nb_rows-1);   
+//    attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+//    print_output(nb_campaigns, output);
+    
+    //quicksort(nb_rows, nb_columns, data, 0, nb_rows-1);
+	
+    /*
+     * Second solution: insertion sort
+     */
+    insertion_sort(nb_rows, nb_columns, data);
+    attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+    print_output(nb_campaigns, output);
+    
+    /*
+     * Third solution: homemade algorithm 
+     */ 
+//    group_rows_by_keys(nb_rows, nb_columns, nb_campaigns, data);
+    
     
     clock_t stop = clock();
     

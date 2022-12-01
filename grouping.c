@@ -23,7 +23,7 @@ struct tree * add_key(struct tree * tree, long int key, struct tree ** found_key
 {
 	if(!is_part(tree, key, found_key)){
 		//If not found allocate a new node in the tree  
- 		printf("add key\n");	
+ 		//printf("add key\n");	
 		struct tree * head = malloc(sizeof(struct tree));
 		head -> key = key;
 		head -> nb_elements = 1;  
@@ -95,22 +95,22 @@ void grouped_attribution(long int * output, struct tree * tree, int nb_campaigns
     	struct element * linked_source;
 	//Check all the different match keys
 	while(tree != NULL){		
-		printf("new key\n");
+		//printf("new key\n");
 		//If a key contains at least one trigger, check all the elements
 		if(tree->contains_trigger && tree->nb_elements>1){
 			curr = tree->element;
 			while(curr != NULL){
 				//we want to find the matching source
-				printf("%d\n", curr->row[1]);
+				//printf("%d\n", curr->row[1]);
 				if(curr->row[trigger]){
-					printf("found trigger\n");
+					//printf("found trigger\n");
 					linked_source = curr ->next_element;
 					//go through all previous elem and find the closer source event 
 					while(linked_source != NULL){
 						if(!linked_source->row[trigger]){
-							printf("found source\n");
+							//printf("found source\n");
 							output[linked_source->row[breakdown]] += curr->row[2]; 
-							print_element(linked_source);
+							//print_element(linked_source);
 							break; 
 						}
 						linked_source = linked_source -> next_element; 
@@ -146,7 +146,7 @@ void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaigns, long int 
 		if(new_element->row[is_trigger]) (*found_key)->contains_trigger = true;
 	
 	}
-	print_tree(known_keys);
+	//print_tree(known_keys);
 
 	long int output[nb_campaigns]; 
 	
