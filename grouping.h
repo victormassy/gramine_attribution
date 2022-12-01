@@ -21,7 +21,8 @@ struct tree
 };
 
 
-void group_rows_by_keys(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]);
+
+void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaings, long int data[nb_rows][nb_columns]);
 
 
 #endif 

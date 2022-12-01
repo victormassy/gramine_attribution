@@ -82,15 +82,52 @@ struct tree * init_tree(int nb_rows, int nb_columns, long int data[nb_rows][nb_c
 	return tree; 
 }
 
+int * grouped_attribution(struct tree * tree, int nb_campaigns){
+	enum matrix_column is_trigger = is_trigger; 
+	enum matrix_column match_key = match_key;
+	enum matrix_column value = value; 
+	enum matrix_column breakdown_key = breakdown_key;
+	struct tree * next_node;
+    struct element * curr;
+    struct element * linked_source;
+	int * output = calloc(nb_campaigns, sizeof(int));
+	//Check all the different match keys
+    while(tree->next != NULL){
+		//If a key contains at least one trigger, check all the elements
+		if(tree->contains_trigger && tree->nb_elements>1){
+			curr = tree->element;
+			while(curr != NULL){
+				//we want to find the matching source
+				if(curr->row[is_trigger]){
+					linked_source = curr ->next_element;
+					//go through all previous elem and find the closer source event 
+					while(linked_source != NULL){
+						if(!linked_source->row[is_trigger]){
+							output[linked_source->row[breakdown_key]] += linked_source->row[value]; 
+							break; 
+						}
+						linked_source = linked_source -> next_element; 
+					}
+				}
+            	curr = curr ->next_element;
+        }
+		}
+        tree = next_node;
+		}
 
-void group_rows_by_keys(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns])
+	return output;
+}
+
+
+
+void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaigns, long int data[nb_rows][nb_columns])
 {
 	int i,j;
 	struct tree * known_keys = init_tree(nb_rows, nb_columns, data);
 	bool added;
 	struct tree ** found_key = &known_keys;	
 	struct element * new_element; 
-       	enum matrix_column is_trigger = is_trigger; 
+    enum matrix_column is_trigger = is_trigger; 
 	enum matrix_column match_key = match_key;	
 	for(i=1;i<nb_rows;i++)
 	{	
@@ -104,13 +141,14 @@ void group_rows_by_keys(int nb_rows, int nb_columns, long int data[nb_rows][nb_c
 	
 	}
 	print_tree(known_keys);
+
+	int * output = grouped_attribution(known_keys, nb_campaigns); 
+	for(int i = 0; i<nb_campaigns; i++){
+		printf("%d ", output[i]);
+	}
+	printf("\n");
 	free_tree(known_keys);
 	
 
-}
-
-
-int * aggregation(struct tree * tree){
-	
 }
 
