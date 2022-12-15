@@ -21,19 +21,21 @@ bool is_part(struct tree * tree, long int key, struct tree ** found)
 
 struct tree * add_key(struct tree * tree, long int key, struct tree ** found_key)
 {
+	
 	if(!is_part(tree, key, found_key)){
 		//If not found allocate a new node in the tree  
- 		//printf("add key\n");	
+ 		//printf(""); //if not printed seg fault	
 		struct tree * head = malloc(sizeof(struct tree));
 		head -> key = key;
-		head -> nb_elements = 1;  
+		head -> nb_elements = 0;  
 		head -> next = tree;
-	        head -> nb_elements = 0;
 		head -> contains_trigger = false;	
+		head -> element = NULL;
 		//printf("tree before : %d\n", tree);
 		tree = head; 
 		//printf("tree after : %d\n", tree);
 	} 
+	
 	return tree;
 }
 
@@ -108,7 +110,6 @@ void grouped_attribution(long int * output, struct tree * tree, int nb_campaigns
 					//go through all previous elem and find the closer source event 
 					while(linked_source != NULL){
 						if(!linked_source->row[trigger]){
-							//printf("found source\n");
 							output[linked_source->row[breakdown]] += curr->row[2]; 
 							//print_element(linked_source);
 							break; 
@@ -133,18 +134,19 @@ void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaigns, long int 
 	bool added;
 	struct tree ** found_key = &known_keys;	
 	struct element * new_element; 
-        enum matrix_column is_trigger = is_trigger; 
-	enum matrix_column match_key = match_key;	
+        enum matrix_column trigger = is_trigger; 
+	enum matrix_column key = match_key;	
+	//Create the tree associated to data
 	for(i=1;i<nb_rows;i++)
 	{	
-		known_keys = add_key(known_keys, data[i][match_key], found_key);		
-		new_element = malloc(sizeof(struct element)) ;
+
+		known_keys = add_key(known_keys, data[i][key], found_key);	
+		new_element = malloc(sizeof(struct element)) ; 
 		new_element->row = data[i];
 		new_element->next_element = (*found_key)->element; 
 		(*found_key) -> element = new_element;
 		(*found_key) -> nb_elements +=1; 
-		if(new_element->row[is_trigger]) (*found_key)->contains_trigger = true;
-	
+		if(new_element->row[trigger]) (*found_key)->contains_trigger = true;
 	}
 	//print_tree(known_keys);
 
@@ -160,7 +162,6 @@ void group_rows_by_keys(int nb_rows, int nb_columns, int nb_campaigns, long int 
 		printf("%d ", output[i]);
 	}
 	
-//	free(output);
 	printf("\n");	
 	free_tree(known_keys);
 	
