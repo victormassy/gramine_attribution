@@ -1,8 +1,7 @@
-# Hello World
+# Attribution reporting solution using gramine 
+This repo contains code for privacy preserving attribution reporting in a secure enclave.
 
-This directory contains a Makefile and a manifest template for running a simple
-"Hello World" program in Gramine. It can be used as a sanity test for your
-Gramine installation.
+For more details please refer to the paper: TODO
 
 # Building
 
@@ -18,10 +17,10 @@ Run `make SGX=1` (non-debug) or `make SGX=1 DEBUG=1` (debug) in the directory.
 
 Without SGX:
 ```sh
-gramine-direct helloworld
+gramine-direct main
 ```
 
 With SGX:
 ```sh
-gramine-sgx helloworld
+gramine-sgx main
 ```
