@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "matrix_columns.h"
 #include "mergesort.h"
 #include "quicksort.h"
@@ -10,7 +12,7 @@
 
 void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns], int nb_campaigns, int output[nb_campaigns]){
 	//Naive implementation 
-	//For now, we assume that the input list is sorted by timestamps 
+	//We assume that the input list is sorted by timestamps 
 	//merge sort and quicksort are stable so in the sorted matrix,
 	//for a define matchkey, timestamps are sorted
 	for(int i = 0; i<nb_campaigns; i++){
@@ -28,7 +30,7 @@ void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]
 		if(data[i][trigger]){
 			j = i - 1;		
 			//looping on the same match key 
-			while(data[j][key] == data[i][key] && j > 0){
+			while(data[j][key] == data[i][key] && j >= 0){
 				//When the closer (in time) source event is found, 
 				//add trigger value to source campaign
 				if(!data[j][trigger]){
@@ -47,10 +49,21 @@ void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]
 
 
 int main(void) {
+    pid_t pid = getpid();
+    FILE *fmem; 
+    char *buf;
+    asprintf(&buf, "proc/%d/status",pid);
+    if (!(fmem = fopen(buf,"r"))){
+	      exit(1);
+    }
+     
+			           
+
+    printf("pid: %lu \n", pid);
     clock_t start = clock();
     FILE *fptr;
     if (!(fptr = fopen("input.txt","r"))){
-              printf("Error! opening file");
+              printf("Error! opening input");
               exit(1);
         }
   
@@ -64,13 +77,10 @@ int main(void) {
     for(int i = 0; i < nb_rows; i++){
 	    for(int j = 0; j < nb_columns; j++){
 	    	if(!fscanf(fptr, "%ld", &data[i][j])) exit(3);
-	   	//printf("%ld\n", data[i][j]);
 	    }
         }
 
     fclose(fptr);
-//    print_reports(nb_rows, nb_columns, data);    	
-    
     /*
      * First solution: merge sort 
      */
@@ -78,13 +88,13 @@ int main(void) {
     mergeSort(nb_columns, data, 0, nb_rows-1);   
     attribution(nb_rows, nb_columns, data, nb_campaigns, output);
     print_output(nb_campaigns, output);
-    	
+
     /*
      * Second solution: insertion sort
     */
 //   insertion_sort(nb_rows, nb_columns, data);
 //   attribution(nb_rows, nb_columns, data, nb_campaigns, output);
-//    print_output(nb_campaigns, output);
+//   print_output(nb_campaigns, output);
     
     /*
      * Third solution: homemade algorithm 
@@ -97,6 +107,14 @@ int main(void) {
     clock_t difference = stop - start;
     int msec = difference * 1000 / CLOCKS_PER_SEC;
     printf("Time taken %d seconds %d milliseconds \n", msec/1000, msec%1000);
+    
+    char c; 
+    c = fgetc(fmem);
+    while(c != EOF){
+    	printf("%c",c);
+	c = fgetc(fmem);
+    }
+    fclose(fmem);
     return 0;
 }
 
