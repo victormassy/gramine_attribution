@@ -1,8 +1,10 @@
-# Hello World manifest file example
+# Manifest file
 
 loader.entrypoint = "file:{{ gramine.libos }}"
 libos.entrypoint = "/main"
-loader.log_level = "{{ log_level }}"
+#loader.log_level = "{{ log_level }}"
+#loader.log_level = "all"
+
 
 loader.env.LD_LIBRARY_PATH = "/lib"
 sgx.enclave_size = "2G"
@@ -10,10 +12,15 @@ sys.stack.size = "1G"
 sgx.profile.enable = "main"
 sgx.enable_stats = true
 
+
+
 fs.mounts = [
   { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
   { path = "/main", uri = "file:main" },
+  { type = "encrypted", path = "/input.txt", uri = "file:enc_files/input.txt", key_name="wrap_key"},
 ]
+
+fs.insecure__keys.wrap_key = "8d0e62af0c8add51014b6c7fb2c712e8" 
 
 sgx.debug = true
 sgx.nonpie_binary = true
@@ -22,9 +29,6 @@ sgx.trusted_files = [
   "file:{{ gramine.libos }}",
   "file:main",
   "file:{{ gramine.runtimedir() }}/", 
-  "file:input.txt", 
+  #"file:input.txt", 
 ]
 
-#sgx.allowed_files = [
-#  "file:input.txt",
-#  ]

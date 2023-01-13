@@ -48,6 +48,7 @@ void attribution(int nb_rows, int nb_columns, long int data[nb_rows][nb_columns]
 }
 
 
+
 int main(void) {
     pid_t pid = getpid();
     FILE *fmem; 
@@ -56,17 +57,14 @@ int main(void) {
     if (!(fmem = fopen(buf,"r"))){
 	      exit(1);
     }
-     
-			           
-
-    printf("pid: %lu \n", pid);
+    
     clock_t start = clock();
     FILE *fptr;
     if (!(fptr = fopen("input.txt","r"))){
               printf("Error! opening input");
               exit(1);
         }
-  
+ 
     long int nb_rows;
     if(!fscanf(fptr, "%ld", &nb_rows)) exit(2);
     int nb_columns = 4; 
@@ -76,7 +74,7 @@ int main(void) {
 
     for(int i = 0; i < nb_rows; i++){
 	    for(int j = 0; j < nb_columns; j++){
-	    	if(!fscanf(fptr, "%ld", &data[i][j])) exit(3);
+	    	if(!fscanf(fptr, "%ld", &data[i][j])){ printf("Error in file"); exit(3);}
 	    }
         }
 
@@ -105,16 +103,15 @@ int main(void) {
     clock_t stop = clock();
     
     clock_t difference = stop - start;
-    int msec = difference * 1000 / CLOCKS_PER_SEC;
-    printf("Time taken %d seconds %d milliseconds \n", msec/1000, msec%1000);
-    
-    char c; 
-    c = fgetc(fmem);
-    while(c != EOF){
-    	printf("%c",c);
-	c = fgetc(fmem);
-    }
-    fclose(fmem);
+    int microsec = difference * 1000000 / CLOCKS_PER_SEC;
+    printf("Time taken %d seconds %d micro \n", microsec/1000000, microsec%1000000); 
+    //char c; 
+    //c = fgetc(fmem);
+    //while(c != EOF){
+    //	printf("%c",c);
+	//c = fgetc(fmem);
+    //}
+    //fclose(fmem);
     return 0;
 }
 
