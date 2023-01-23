@@ -7,9 +7,9 @@ For more details please refer to the paper: TODO
 
 For installation please check [gramine documentation](https://gramine.readthedocs.io/en/latest/quickstart.html)
 Check installation is correct and run: 
-''' 
+```
 gramine-sgx
-'''
+```
 
 # Building
 
@@ -37,21 +37,21 @@ gramine-sgx main
 # Run multiple tests
 Some scripts can be used to run multiple tests. For these scipts to work, you need to follow these steps: 
  - Clone input repo 
- '''
+ ```
  git clone https://github.com/victormassy/input.git
- '''
+ ```
  
  - Unzip input:
  
-'''
+```
 cd input
 unzip TODO
-'''
+```
 
  - Run tests:
-''' 
+``` 
 chmod +x 100tests.sh 
 ./100tests.sh 
-'''
+```
 
 Execution times are stored in file results.txt in microseconds (ms). 
