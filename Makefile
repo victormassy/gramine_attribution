@@ -1,8 +1,8 @@
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Dsgx=enabled 
 
 ifeq ($(DEBUG),1)
-GRAMINE_LOG_LEVEL = debug
-CFLAGS += -g
+GRAMINE_LOG_LEVEL = debug 
+CFLAGS += -g 
 else
 GRAMINE_LOG_LEVEL = error
 CFLAGS += -O3
@@ -14,7 +14,7 @@ ifeq ($(SGX),1)
 all: main.manifest.sgx main.sig main.token
 endif
 
-main: main.o grouping.c quicksort.c mergesort.c printfunctions.c insertionsort.c
+main: main.o grouping.c quicksort.c mergesort.c printfunctions.c insertionsort.c 
 
 main.o: main.c
 

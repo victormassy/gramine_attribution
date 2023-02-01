@@ -11,6 +11,7 @@ Check installation is correct and run:
 gramine-sgx
 ```
 
+
 # Building
 
 ## Building for Linux
