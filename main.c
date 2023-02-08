@@ -85,16 +85,16 @@ int main(void) {
    * First solution: merge sort
    */
 
-  mergeSort(nb_columns, data, 0, nb_rows - 1);
-  attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+  //mergeSort(nb_columns, data, 0, nb_rows - 1);
+  //attribution(nb_rows, nb_columns, data, nb_campaigns, output);
   // For test purpose we don't print the output
-  print_output(nb_campaigns, output);
+  //print_output(nb_campaigns, output);
 
   /*
    * Second solution: insertion sort
    */
-  //   insertion_sort(nb_rows, nb_columns, data);
-  //   attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+     insertion_sort(nb_rows, nb_columns, data);
+    attribution(nb_rows, nb_columns, data, nb_campaigns, output);
   //   print_output(nb_campaigns, output);
 
   /*
