@@ -9,9 +9,8 @@ libos.entrypoint = "/main"
 loader.env.LD_LIBRARY_PATH = "/lib"
 sgx.enclave_size = "2G"
 sys.stack.size = "1G"
-sgx.profile.enable = "main"
 sgx.enable_stats = true
-
+sgx.preheat_enclave = true
 
 
 fs.mounts = [
@@ -29,6 +28,5 @@ sgx.trusted_files = [
   "file:{{ gramine.libos }}",
   "file:main",
   "file:{{ gramine.runtimedir() }}/", 
-  #"file:input.txt", 
 ]
 
