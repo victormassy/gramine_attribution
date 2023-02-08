@@ -56,3 +56,10 @@ chmod +x 100tests.sh
 ```
 
 Execution times are stored in file results.txt in microseconds (ms). 
+
+
+# Structure of the repo 
+
+main.c: Contains code executed inside the enclave. 
+wrap_key: cryptographic key used for encryption (the matching private key is hard coded in the manifest)
+main.manifest.template: specify where to find encrypted input
