@@ -26,12 +26,12 @@ void attribution(int nb_rows, int nb_columns,
   enum matrix_column val = value;
   enum matrix_column breakdown = breakdown_key;
   // if first element is trigger can't attritube it to any source
-  //-> loop can start at 1
+  // loop starts at index 1
   for (int i = 1; i < nb_rows; i++) {
-    // for each trigger event find the closer source event
+    // for each trigger event find the closest source event
     if (data[i][trigger]) {
       j = i - 1;
-      // looping on the same match key
+      // looping backward while match key is the same
       while (data[j][key] == data[i][key] && j >= 0) {
         // When the closer (in time) source event is found,
         // add trigger value to source campaign
@@ -85,16 +85,16 @@ int main(void) {
    * First solution: merge sort
    */
 
-  //mergeSort(nb_columns, data, 0, nb_rows - 1);
-  //attribution(nb_rows, nb_columns, data, nb_campaigns, output);
-  // For test purpose we don't print the output
-  //print_output(nb_campaigns, output);
+  mergeSort(nb_columns, data, 0, nb_rows - 1);
+  attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+  //For test purpose you can comment the following line
+  print_output(nb_campaigns, output);
 
   /*
    * Second solution: insertion sort
    */
-     insertion_sort(nb_rows, nb_columns, data);
-    attribution(nb_rows, nb_columns, data, nb_campaigns, output);
+   //  insertion_sort(nb_rows, nb_columns, data);
+   // attribution(nb_rows, nb_columns, data, nb_campaigns, output);
   //   print_output(nb_campaigns, output);
 
   /*
