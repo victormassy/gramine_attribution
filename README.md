@@ -52,7 +52,7 @@ unzip TODO
  - Run tests:
 ``` 
 chmod +x 100tests.sh 
-./100tests.sh 
+./100tests.sh 12
 ```
 
 Execution times are stored in file results.txt in microseconds (ms). 
